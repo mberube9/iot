@@ -1,0 +1,25 @@
+{
+  "name": "iot",
+  "description": "my IoT app",
+  "main": "server.js",
+  "authors": [
+    "Marco Berube"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "iot"
+  ],
+  "homepage": "https://github.com/mberube9/iot",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "patternfly": "^3.18.1",
+    "jquery": "^3.1.1"
+  }
+}
