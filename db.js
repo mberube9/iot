@@ -13,7 +13,7 @@ var mongoURL = 'mongodb://';
 mongoURL += mongoUser + ':' + mongoPassword + '@';
 mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
-var collections = ['lennox'];
+var collections = ['lennox','photon'];
 
 console.log ('Connecting to URL: ' + mongoURL)
 var db = mongojs(mongoURL, collections);
