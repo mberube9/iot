@@ -7,7 +7,7 @@ var db = require('../db');
 // index page
 router.get('/', function(req, res) {
 
-  db.lennox.find({}).limit(10000).skip(0).toArray(function (err, docs) {
+  db.sensors.find({"Device_id":"Lennox"}).limit(10000).skip(0).toArray(function (err, docs) {
 
     var Time;
     var j = docs.length;

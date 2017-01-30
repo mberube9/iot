@@ -54,15 +54,7 @@
                 xFormat: '%Y-%m-%d %H:%M:%S',
                 columns: [
                 //  ['x', '2015-04-01', '2015-04-02', '2015-04-03', '2015-04-04', '2015-04-05', '2015-04-06', '2015-04-07'],
-                ['x'<% data.forEach(function(docs) { %>
-                ,'<%= docs.Time %>'
-                <% }); %>],
-                ['Indoor_Temp'<% data.forEach(function(docs) { %>
-                ,'<%= docs.Indoor_Temp %>'
-                <% }); %>],
-                ['Indoor_Humidity'<% data.forEach(function(docs) { %>
-                ,'<%= docs.Indoor_Humidity %>'
-                <% }); %>]
+                ['x'<% data.forEach(function(docs) { %>,'<%= docs.Time %>'<% }); %>],['Indoor_Temp'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Temp %>'<% }); %>],['Indoor_Humidity'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Humidity %>'<% }); %>]
                 ],
                 x: 'x'
               },

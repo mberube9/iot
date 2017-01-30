@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IoT - Testing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- PatternFly Styles -->
+    <link href="bower_components/patternfly/dist/css/patternfly.min.css" rel="stylesheet" media="screen, print">
+    <link href="bower_components/patternfly/dist/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
+
+    <!-- jQuery -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- PatternFly -->
+    <script src="bower_components/patternfly/dist/js/patternfly.min.js"></script>
+
+    <script src="bower_components/c3/c3.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.11/moment-timezone.js"></script>
+
+
+  </head>
+
+  <body>
+
+    <H1>LENNOX Graph</H1>
+
+    <div id="line-chart-3" class="line-chart-pf"></div>
+
+    <script>
+
+      var c3ChartDefaults = $().c3ChartDefaults();
+
+            var chart = c3.generate({
+              axis: {
+                x: {tick: {format: '%m-%d %H:%M',outer: false},type: 'timeseries'},
+                y: {tick: {format: function(d) { return d + ""; },outer: false}}
+              },
+              bindto: '#line-chart-3',
+              color: c3ChartDefaults.getDefaultColors(),
+              data: {
+                xFormat: '%Y-%m-%d %H:%M:%S',
+                columns: [
+                ['x','2017-01-29 16:19:54','2017-01-29 16:20:54','2017-01-29 16:21:54','2017-01-29 16:22:54'],
+                ['data','12','14','24','14']
+                ],
+                x: 'x'
+              },
+              grid: {y: {show: true}},
+              legend: {hide: false},
+              point: {r: 0},
+              size: {height: 400, width: 1200}
+            });
+
+
+    </script>
+
+
+<div id=test></div>
+<script>
+
+$( document ).ready(function() {
+
+  moment.tz.add([
+      'America/Los_Angeles|PST PDT|80 70|0101|1Lzm0 1zb0 Op0',
+      'America/New_York|EST EDT|50 40|0101|1Lz50 1zb0 Op0'
+  ]);
+
+  $.getJSON('http://127.0.0.1:8080/api/sensors?Device_id=29005c000a51353335323535', function(data) {
+      data1 = ['data'];
+      datax = ['x'];
+
+      var Time;
+      var arrayLength = data.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+          Time = moment(data[i]['Time']);
+          datax.push( Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss') );
+          data1.push(data[i]['Data']);
+      }
+
+      chart.load({
+        columns: [
+          datax,
+          data1
+        ]
+      });
+  });
+
+
+
+
+
+  $.getJSON('http://127.0.0.1:8080/api/sensors?Device_id=1a0043000f51353338363333', function(data) {
+      data2 = ['data2'];
+      datax = ['x'];
+
+      var Time;
+      var arrayLength = data.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+          Time = moment(data[i]['Time']);
+          datax.push( Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss') );
+          data2.push(data[i]['Data']);
+      }
+
+      chart.load({
+        columns: [
+          datax,
+          data2
+        ]
+      });
+  });
+
+
+
+  $.getJSON('http://127.0.0.1:8080/api/sensors?Device_id=Lennox', function(data) {
+      data3 = ['data3'];
+      datax = ['x'];
+
+      var Time;
+      var arrayLength = data.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+          Time = moment(data[i]['Time']);
+          datax.push( Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss') );
+          data3.push(data[i]['Indoor_Temp']);
+      }
+
+      chart.load({
+        columns: [
+          datax,
+          data3
+        ]
+      });
+  });
+
+
+  $.getJSON('http://127.0.0.1:8080/api/sensors?Device_id=accuweather_milford', function(data) {
+      data4 = ['data4'];
+      datax = ['x'];
+
+      var Time;
+      var arrayLength = data.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+          Time = moment(data[i]['Time']);
+          datax.push( Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss') );
+          data4.push(data[i]['Temperature']);
+      }
+
+      chart.load({
+        columns: [
+          datax,
+          data4
+        ]
+      });
+  });
+
+
+
+
+
+
+});
+
+
+
+
+
+</script>
+
+
+  </body>
+</html>
