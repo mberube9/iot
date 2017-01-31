@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>IoT - Testing</title>
+    <title>IoT - Graph1</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="styles.css">
 
-    <!-- PatternFly Styles -->
     <link href="bower_components/patternfly/dist/css/patternfly.min.css" rel="stylesheet" media="screen, print">
     <link href="bower_components/patternfly/dist/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
 
-    <!-- jQuery -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- PatternFly -->
     <script src="bower_components/patternfly/dist/js/patternfly.min.js"></script>
-
     <script src="bower_components/c3/c3.min.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.11/moment-timezone.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/moment-timezone/moment-timezone.js"></script>
 
 
   </head>
@@ -44,10 +39,7 @@
               color: c3ChartDefaults.getDefaultColors(),
               data: {
                 xFormat: '%Y-%m-%d %H:%M:%S',
-                columns: [
-                ['x','2017-01-29 16:19:54','2017-01-29 16:20:54','2017-01-29 16:21:54','2017-01-29 16:22:54'],
-                ['data','12','14','24','14']
-                ],
+                columns: [],
                 x: 'x'
               },
               grid: {y: {show: true}},
@@ -65,12 +57,17 @@
 
 $( document ).ready(function() {
 
+  host_url = window.location.hostname + ":" + window.location.port;
+
   moment.tz.add([
       'America/Los_Angeles|PST PDT|80 70|0101|1Lzm0 1zb0 Op0',
       'America/New_York|EST EDT|50 40|0101|1Lz50 1zb0 Op0'
   ]);
 
-  $.getJSON('http://iot.lab.marcoberube.com/api/sensors?Device_id=29005c000a51353335323535', function(data) {
+  host_url = window.location.hostname + ":" + window.location.port;
+  url = 'http://' + host_url + '/api/sensors?Device_id=29005c000a51353335323535';
+
+  $.getJSON(url, function(data) {
       data1 = ['data'];
       datax = ['x'];
 
@@ -95,7 +92,7 @@ $( document ).ready(function() {
 
 
 
-  $.getJSON('http://iot.lab.marcoberube.com/api/sensors?Device_id=1a0043000f51353338363333', function(data) {
+  $.getJSON('http://localhost:8080/api/sensors?Device_id=1a0043000f51353338363333', function(data) {
       data2 = ['data2'];
       datax = ['x'];
 
@@ -118,7 +115,7 @@ $( document ).ready(function() {
 
 
 
-  $.getJSON('http://iot.lab.marcoberube.com/api/sensors?Device_id=Lennox', function(data) {
+  $.getJSON('http://localhost:8080/api/sensors?Device_id=Lennox', function(data) {
       data3 = ['data3'];
       datax = ['x'];
 
@@ -140,7 +137,7 @@ $( document ).ready(function() {
   });
 
 
-  $.getJSON('http://iot.lab.marcoberube.com/api/sensors?Device_id=accuweather_milford', function(data) {
+  $.getJSON('http://localhost:8080/api/sensors?Device_id=accuweather_milford', function(data) {
       data4 = ['data4'];
       datax = ['x'];
 
