@@ -9,6 +9,19 @@ router.get('/', function(req,res) {
   res.render('index.html');
 });
 
+router.get('/furnace', function(req,res) {
+  res.render('furnace.html');
+});
+
+router.get('/temperatures', function(req,res) {
+  res.render('temperatures.html');
+});
+
+router.get('/nav', function(req,res) {
+  res.render('nav.html');
+});
+
+
 
 router.get('/gCurTemp', function(req,res) {
   var device_id = req.query['device_id'];
@@ -88,6 +101,55 @@ router.get('/gTemperatures', function(req,res) {
   var isodate = date.toISOString();
 
 
+
+  db.sensors.find({"Time":{ $gt : isodate }}, function(err, data){
+    if(err){res.send(err);}
+
+
+    var response = [];
+    var docs = [];
+    var arrayLength = data.length;
+    var myhash = {};
+    var time = "";
+
+    var i = 0;
+    myhash['Time'] = data[i].Time;
+    if (data[i].Data && data[i].Device_id) myhash[data[i].Device_id] = data[i].Data;
+    if (data[i].Indoor_Temp && data[i].Device_id) myhash[data[i].Device_id] = data[i].Indoor_Temp;
+    if (data[i].Temperature && data[i].Device_id) myhash[data[i].Device_id] = data[i].Temperature;
+
+    for (i = 1; i < arrayLength; i++) {
+        if (data[i].Time === data[i-1].Time) {} else {response.push(myhash); myhash = {};}
+
+        myhash['Time'] = data[i].Time;
+        if (data[i].Data && data[i].Device_id) myhash[data[i].Device_id] = data[i].Data;
+        if (data[i].Indoor_Temp && data[i].Device_id) myhash[data[i].Device_id] = data[i].Indoor_Temp;
+        if (data[i].Temperature && data[i].Device_id) myhash[data[i].Device_id] = data[i].Temperature;
+    }
+
+    // limit to 1440 values the returned array
+    for (i=0; i < response.length; i++) {
+      if((i % Math.round(response.length / 1440)) === 0){
+        docs.push(response[i]);
+      }
+    }
+    // convert all timezones
+    for (i=0; i < docs.length; i++) {
+      docs[i]['Time'] = moment(docs[i]['Time']).tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    res.render('gTemperatures.html', {
+        id: title,
+        title: title,
+        data: docs
+    });
+
+
+  });
+});
+
+
+/*
   db.sensors.find({"Device_id":"Lennox","Time":{ $gt : isodate }}).toArray(function (err, docs) {
 
     var Time;
@@ -118,7 +180,59 @@ router.get('/gTemperatures', function(req,res) {
       Last_Status = data[i]['System_Status'];
     };
 
-    res.render('gTemperatures.html', {
+
+
+  });
+
+*/
+
+
+
+
+router.get('/gFurnace', function(req,res) {
+  var title = req.query['title'];
+  var hours = req.query['hours'];
+  var date = new Date();
+
+  if (hours) {
+    date.setHours(date.getHours() - hours);
+  } else {
+    date.setHours(date.getHours() - 168);
+  }
+  var isodate = date.toISOString();
+
+
+  db.sensors.find({"Device_id":"Lennox","Time":{ $gt : isodate }}).toArray(function (err, docs) {
+
+    var Time;
+    var data = [];
+
+    for (var i = 0; i < docs.length; i++){
+       if((i % Math.round(docs.length / 1440)) === 0){
+         SearchTime = docs[i]['Time'];
+         Time = moment(docs[i]['Time']);
+         docs[i]['Time'] = Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
+         data.push(docs[i]);
+
+       }
+    };
+
+    var Last_Status = 0;
+    var lastevent = {};
+    var allevents = [];
+    for (var i = 0; i < data.length; i++){
+      if (Last_Status == 0 && data[i]['System_Status'] == 1){
+        lastevent['start'] = data[i]['Time'];
+      }
+      if (Last_Status == 1 && data[i]['System_Status'] == 0){
+        lastevent['stop'] = data[i]['Time'];
+        allevents.push(lastevent);
+        lastevent = {};
+      }
+      Last_Status = data[i]['System_Status'];
+    };
+
+    res.render('gFurnace.html', {
         id: title,
         title: title,
         data: data,
@@ -130,27 +244,6 @@ router.get('/gTemperatures', function(req,res) {
 });
 
 
-
-// first graph testing
-router.get('/graph0', function(req, res) {
-
-  db.sensors.find({"Device_id":"Lennox"}).limit(10000).skip(0).toArray(function (err, docs) {
-
-    var Time;
-    var j = docs.length;
-
-    for (var i = 0; i < j; i++){
-       Time = moment(docs[i]['Time']);
-       docs[i]['Time'] = Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
-    };
-
-    res.render('graph0.html', {
-        data: docs
-    });
-
-  });
-
-});
 
 
 module.exports = router;

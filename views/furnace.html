@@ -28,26 +28,17 @@
 
     <script>
     $(document).ready(function() {
-
       $('#menu').load('/nav');
-      $('#btn_dashboard').addClass('active');
-      $('#btn_furnace').removeClass('active');
+      $('#btn_dashboard').removeClass('active');
+      $('#btn_furnace').addClass('active');
       $('#btn_temperatures').removeClass('active');
 
       $('#widget1').load('loading.html');
-      $('#widget2').load('loading.html');
-      $('#widget3').load('loading.html');
-      $('#widget4').load('loading.html');
-
-
-      $("#widget1").load("/gCurTemp?device_id=Lennox&title=Furnace&varname=Indoor_Temp");
-      $("#widget2").load("/gCurTemp?device_id=1a0043000f51353338363333&title=Livingroom&varname=Data");
-      $("#widget3").load("/gCurTemp?device_id=29005c000a51353335323535&title=Basement&varname=Data");
-      $("#widget4").load("/gCurWeather?device_id=accuweather_milford&title=Milford&varname=Temperature&varname2=WeatherText");
-
+      $("#widget1").load("/gfurnace?title=Furnace&hours=24");
     });
-    </script>
 
+
+    </script>
 
 <div id="menu"></div>
 
@@ -55,12 +46,6 @@
 <div class="container-fluid container-cards-pf">
   <div class="row row-cards-pf">
     <div id="widget1" class="card-pf-body"></div>
-    <div id="widget2" class="card-pf-body"></div>
-    <div id="widget3" class="card-pf-body"></div>
-  </div>
-  <div class="row row-cards-pf">
-    <div id="widget4" class="card-pf-body"></div>
-    <div id="widget5" class="card-pf-body"></div>
   </div>
 </div>
 

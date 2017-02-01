@@ -37,11 +37,7 @@
           xFormat: '%Y-%m-%d %H:%M:%S',
 
           columns: [
-          ['x'<% data.forEach(function(docs) { %>,'<%= docs.Time %>'<% }); %>],
-          ['Livingroom'<% data.forEach(function(docs) { %>,'<% if (docs['1a0043000f51353338363333'])  {%><%= docs['1a0043000f51353338363333'] %><%} else {%>null<%}%>'<% }); %>],
-          ['Basement'<% data.forEach(function(docs) { %>,'<% if (docs['29005c000a51353335323535'])  {%><%= docs['29005c000a51353335323535'] %><%} else {%>null<%}%>'<% }); %>],
-          ['Milford'<% data.forEach(function(docs) { %>,'<%= docs.accuweather_milford %>'<% }); %>],
-          ['Lennox'<% data.forEach(function(docs) { %>,'<%= docs.Lennox %>'<% }); %>],
+          ['x'<% data.forEach(function(docs) { %>,'<%= docs.Time %>'<% }); %>],['Indoor_Temp'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Temp %>'<% }); %>],['Indoor_Humidity'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Humidity %>'<% }); %>]
           ],
 
           x: 'x'
@@ -55,6 +51,9 @@
         zoom: {enabled: true},
         subchart: {show: true},
 
+        regions: [
+          <% events.forEach(function(events) { %>{axis: 'x', start: '<%= events.start %>', end: '<%= events.stop %>', class: 'regionXON'},<% }); %>
+        ]
       });
 
       </script>
