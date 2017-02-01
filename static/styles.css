@@ -6,3 +6,7 @@
   padding-bottom: 0px;
   padding-left: 0px;
 }
+
+.c3-region.regionXON  {
+  fill: red;
+}

@@ -1,0 +1,63 @@
+
+<div class="col-md-12">
+  <div class="card-pf card-pf-accented">
+      <div class="card-pf-heading">
+        <h2 class="card-pf-title">
+          <%= title %>
+        </h2>
+      </div>
+
+    <div class="card-pf-body">
+
+      <div class="dropdown card-pf-time-frame-filter text-right">
+        <button id="btn_day" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gTemperatures?title=Temperatures&hours=24')">
+          Last Day
+        </button>
+        <button id="btn_week" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gTemperatures?title=Temperatures&hours=168')">
+          Last Week
+        </button>
+        <button id="btn_month" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gTemperatures?title=Temperatures&hours=720')">
+          Last Month
+        </button>
+      </div>
+
+      <div id="<%= id %>"></div>
+      </br>
+      <script>
+
+      var c3ChartDefaults = $().c3ChartDefaults();
+      var chart = c3.generate({
+        axis: {
+          x: {tick: {format: '%m-%d %H:%M',outer: false},type: 'timeseries'},
+          y: {tick: {format: function(d) { return d + ""; },outer: false}}
+        },
+        bindto: '#<%= id %>',
+        color: c3ChartDefaults.getDefaultColors(),
+        data: {
+          xFormat: '%Y-%m-%d %H:%M:%S',
+
+          columns: [
+          ['x'<% data.forEach(function(docs) { %>,'<%= docs.Time %>'<% }); %>],['Indoor_Temp'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Temp %>'<% }); %>],['Indoor_Humidity'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Humidity %>'<% }); %>]
+          ],
+
+          x: 'x'
+        },
+        grid: {y: {show: true}},
+        legend: {hide: false},
+        point: {r: 0},
+        size: {height: 500},
+        padding: {top: 20, right: 40, left:40, bottom:20},
+        line: {connectNull: false},
+        zoom: {enabled: true},
+        subchart: {show: true},
+
+        regions: [
+          <% events.forEach(function(events) { %>{axis: 'x', start: '<%= events.start %>', end: '<%= events.stop %>', class: 'regionXON'},<% }); %>
+        ]
+      });
+
+      </script>
+
+    </div>
+  </div>
+</div>

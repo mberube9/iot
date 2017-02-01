@@ -74,6 +74,63 @@ router.get('/gEvents', function(req,res) {
 });
 
 
+
+router.get('/gTemperatures', function(req,res) {
+  var title = req.query['title'];
+  var hours = req.query['hours'];
+  var date = new Date();
+
+  if (hours) {
+    date.setHours(date.getHours() - hours);
+  } else {
+    date.setHours(date.getHours() - 168);
+  }
+  var isodate = date.toISOString();
+
+
+  db.sensors.find({"Device_id":"Lennox","Time":{ $gt : isodate }}).toArray(function (err, docs) {
+
+    var Time;
+    var data = [];
+
+    for (var i = 0; i < docs.length; i++){
+       if((i % Math.round(docs.length / 1440)) === 0){
+         SearchTime = docs[i]['Time'];
+         Time = moment(docs[i]['Time']);
+         docs[i]['Time'] = Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
+         data.push(docs[i]);
+
+       }
+    };
+
+    var Last_Status = 0;
+    var lastevent = {};
+    var allevents = [];
+    for (var i = 0; i < data.length; i++){
+      if (Last_Status == 0 && data[i]['System_Status'] == 1){
+        lastevent['start'] = data[i]['Time'];
+      }
+      if (Last_Status == 1 && data[i]['System_Status'] == 0){
+        lastevent['stop'] = data[i]['Time'];
+        allevents.push(lastevent);
+        lastevent = {};
+      }
+      Last_Status = data[i]['System_Status'];
+    };
+
+    res.render('gTemperatures.html', {
+        id: title,
+        title: title,
+        data: data,
+        events: allevents
+    });
+
+  });
+
+});
+
+
+
 // first graph testing
 router.get('/graph0', function(req, res) {
 
