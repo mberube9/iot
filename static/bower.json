@@ -22,7 +22,9 @@
     "patternfly": "^3.18.1",
     "jquery": "^3.1.1",
     "moment": "^2.17.1",
-    "moment-timezone": "^0.5.11"
+    "moment-timezone": "^0.5.11",
+    "matchHeight": "^0.7.0",
+    "patternfly-timeline": "^1.0.4"
   },
   "resolutions": {
     "moment": "~2.14.1"

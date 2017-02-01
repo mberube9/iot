@@ -1,0 +1,41 @@
+
+
+<div class="col-xs-12 col-sm-4 col-md-4">
+  <div class="card-pf card-pf-accented">
+      <div class="card-pf-heading">
+        <h2 class="card-pf-title">
+          <%= title %>
+        </h2>
+      </div>
+
+    <div class="card-pf-body">
+      <div id="<%= id %>"></div>
+</br>
+
+<script>
+var timelineChart = d3.chart.timeline();
+var json = [
+  {
+    "name":"Power Activity",
+    "data":[
+      {"date": "2016-04-08T15:07:37.374Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-08T15:07:37.374Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-15T21:04:16.247Z", "details": {"event": "vmPowerOn", "object": "vmName"}}
+    ]
+  },
+  {
+    "name":"Alarm/Error",
+    "data":[
+      {"date": "2016-04-21T01:06:19.126Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-16T13:07:15.205Z", "details": {"event": "vmPowerOff", "object": "hostName"}},
+      {"date": "2016-04-07T22:35:41.145Z", "details": {"event": "vmPowerOff", "object": "hostName"}}
+    ]
+  }
+];
+d3.select('#<%= id %>')
+  .datum(data)
+  .call(timelineChart);
+</script>
+
+  </div>
+</div>

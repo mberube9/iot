@@ -61,6 +61,10 @@ router.get('/sensors/temperatures', function(req, res, next){
 
 });
 
+
+
+
+
 // Get one data point
 router.get('/sensors/:id', function(req, res, next){
   db.sensors.findOne({_id: mongojs.ObjectId(req.params.id)},function(err, data){

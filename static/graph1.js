@@ -27,7 +27,13 @@ $( document ).ready(function() {
     padding: {top: 20, right: 80, left:80, bottom:20},
     line: {connectNull: false},
     zoom: {enabled: true},
-    subchart: {show: true}
+    subchart: {show: true},
+
+    regions: [
+        {axis: 'x', end: '2017-01-30 09:41:19', class: 'regionXOFF'},
+        {axis: 'x', start: '2017-01-30 12:58:30', end: '2017-01-31 04:56:22', class: 'regionXON'},
+        {axis: 'x', start: '2017-01-31 10:21:40', class: 'regionXOFF'}
+    ]
   });
 
 

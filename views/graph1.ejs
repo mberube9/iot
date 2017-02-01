@@ -1,0 +1,66 @@
+<div class="col-md-12">
+  <div class="card-pf card-pf-utilization">
+    <div class="card-pf-heading">
+      <p class="card-pf-heading-details">Last 30 days</p>
+      <h2 class="card-pf-title">Utilization</h2>
+    </div>
+
+  <div class="card-pf-body">
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-4">
+        <h3 class="card-pf-subtitle">CPU</h3>
+        <p class="card-pf-utilization-details">
+          <span class="card-pf-utilization-card-details-count">50</span>
+          <span class="card-pf-utilization-card-details-description">
+            <span class="card-pf-utilization-card-details-line-1">Available</span>
+            <span class="card-pf-utilization-card-details-line-2">of 1000 MHz</span>
+          </span>
+        </p>
+        <div id="chart-pf-donut-1"></div>
+        <div class="chart-pf-sparkline" id="chart-pf-sparkline-1"></div>
+          <script>
+            var donutConfig = $().c3ChartDefaults().getDefaultDonutConfig('A');
+            donutConfig.bindto = '#chart-pf-donut-1';
+            donutConfig.color =  {
+              pattern: ["#cc0000","#D1D1D1"]
+            };
+            donutConfig.data = {
+              type: "donut",
+              columns: [
+                ["Used", 95],
+                ["Available", 5]
+              ],
+              groups: [
+                ["used", "available"]
+              ],
+              order: null
+            };
+            donutConfig.tooltip = {
+              contents: function (d) {
+                return '<span class="donut-tooltip-pf" style="white-space: nowrap;">' +
+                        Math.round(d[0].ratio * 100) + '%' + ' MHz ' + d[0].name +
+                        '</span>';
+              }
+            };
+
+            var chart1 = c3.generate(donutConfig);
+            var donutChartTitle = d3.select("#chart-pf-donut-1").select('text.c3-chart-arcs-title');
+            donutChartTitle.text("");
+            donutChartTitle.insert('tspan').text("950").classed('donut-title-big-pf', true).attr('dy', 0).attr('x', 0);
+            donutChartTitle.insert('tspan').text("MHz Used").classed('donut-title-small-pf', true).attr('dy', 20).attr('x', 0);
+
+            var sparklineConfig = $().c3ChartDefaults().getDefaultSparklineConfig();
+            sparklineConfig.bindto = '#chart-pf-sparkline-1';
+            sparklineConfig.data = {
+              columns: [
+                ['%', 10, 50, 28, 20, 31, 27, 60, 36, 52, 55, 62, 68, 69, 88, 74, 88, 95],
+              ],
+              type: 'area'
+            };
+            var chart2 = c3.generate(sparklineConfig);
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

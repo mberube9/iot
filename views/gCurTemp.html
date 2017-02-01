@@ -1,0 +1,70 @@
+
+
+<div class="col-xs-12 col-sm-4 col-md-4">
+  <div class="card-pf card-pf-accented">
+      <div class="card-pf-heading">
+        <h2 class="card-pf-title">
+          <%= title %>
+        </h2>
+      </div>
+
+    <div class="card-pf-body">
+      <div id="<%= id %>"></div>
+</br>
+      <script>
+      var chart = c3.generate({
+        bindto: '#<%= id %>',
+        data: {
+          columns: [
+            [ 'data', <%= temperature %>]
+          ],
+          type: 'gauge'
+        },
+        gauge: {
+          label: {
+                  format: function(value, ratio) {
+                        return Math.round(value * 10) / 10 + " ℃";
+                  },
+                  extents: function (value, isMax) {
+                      return value;
+                  },
+                show: false // to turn off the min/max labels.
+          },
+                min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
+                max: 45, // 100 is default
+                units: 'Celcius',
+                width: 60 // for adjusting arc thickness
+        },
+        color: {
+          pattern: ['#FF0000', '#F6C600', '#60B044'], // the three color levels for the percentage values.
+          threshold: {
+                unit: 'value', // percentage is default
+                max: 40, // 100 is default
+            values: [10, 15, 20] // alternate first value is 'value'
+          }
+        }
+      });
+      </script>
+
+      <div id="<%= id %>-2" class="chart-pf-sparkline"></div>
+      <div>Last 24 hours...</div>
+      <script>
+        var sdata = <%= sparkline %>;
+        sdata.push('&#8451;');
+        var ssdata = reverseArr(sdata);
+        var asdata = [];
+        asdata.push(ssdata);
+        var c3ChartDefaults = $().c3ChartDefaults();
+        var sparklineChartConfig = c3ChartDefaults.getDefaultSparklineConfig();
+        sparklineChartConfig.bindto = '#<%= id %>-2';
+        sparklineChartConfig.data = {
+          columns: asdata,
+          type: 'area'
+        };
+        var sparklineChart = c3.generate(sparklineChartConfig);
+      </script>
+
+
+    </div>
+  </div>
+</div>
