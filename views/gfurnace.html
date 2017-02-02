@@ -10,13 +10,13 @@
     <div class="card-pf-body">
 
       <div class="dropdown card-pf-time-frame-filter text-right">
-        <button id="btn_day" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gTemperatures?title=Temperatures&hours=24')">
+        <button id="btn_day" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gfurnace?title=Furnace&hours=24')">
           Last Day
         </button>
-        <button id="btn_week" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gTemperatures?title=Temperatures&hours=168')">
+        <button id="btn_week" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gfurnace?title=Furnace&hours=168')">
           Last Week
         </button>
-        <button id="btn_month" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gTemperatures?title=Temperatures&hours=720')">
+        <button id="btn_month" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="$('#widget1').load('loading.html');$('#widget1').load('/gfurnace?title=Furnace&hours=720')">
           Last Month
         </button>
       </div>
@@ -37,7 +37,10 @@
           xFormat: '%Y-%m-%d %H:%M:%S',
 
           columns: [
-          ['x'<% data.forEach(function(docs) { %>,'<%= docs.Time %>'<% }); %>],['Indoor_Temp'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Temp %>'<% }); %>],['Indoor_Humidity'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Humidity %>'<% }); %>]
+          ['x'<% data.forEach(function(docs) { %>,'<%= docs.Time %>'<% }); %>],
+          ['Indoor_Temp'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Temp %>'<% }); %>],
+          ['Indoor_Humidity'<% data.forEach(function(docs) { %>,'<%= docs.Indoor_Humidity %>'<% }); %>],
+          ['Heat_Set_Point'<% data.forEach(function(docs) { %>,'<%= docs.Heat_Set_Point %>'<% }); %>],
           ],
 
           x: 'x'

@@ -63,8 +63,6 @@ router.get('/sensors/temperatures', function(req, res, next){
 
 
 
-
-
 // Get one data point
 router.get('/sensors/:id', function(req, res, next){
   db.sensors.findOne({_id: mongojs.ObjectId(req.params.id)},function(err, data){
@@ -74,6 +72,23 @@ router.get('/sensors/:id', function(req, res, next){
     res.json(data);
   });
 });
+
+// Get one data point
+router.get('/sensors/date/:date', function(req, res, next){
+
+  var ltdate = new Date(req.params.date);
+  ltdate.setDate(ltdate.getDate()+1);
+  var sltdate = ltdate.toISOString().substring(0, 10);
+
+  db.sensors.find({'Time': { $gt : req.params.date , $lt : sltdate }},function(err, data){
+    if(err){
+      res.send(err);
+    }
+    res.json(data);
+  });
+});
+
+
 
 // Save data
 router.post('/sensors', function(req, res, next){
@@ -96,5 +111,37 @@ router.delete('/sensors/:id', function(req, res,next){
   });
 });
 
+
+// Get Sensors Data
+router.get('/stats', function(req, res, next){
+  db.stats.find(req.query, function(err, data){
+    if(err){
+      res.send(err);
+    }
+    res.json(data);
+  });
+});
+
+// STATS POST
+router.post('/stats', function(req, res, next){
+  var data = req.body;
+  db.stats.save(data,function(err, data){
+    if(err){
+      res.send(err);
+    }
+    res.json(data)
+  });
+});
+
+
+// Delete Task
+router.delete('/stats/:id', function(req, res,next){
+  db.stats.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
+    if(err){
+      res.send(err);
+    }
+    res.json(data)
+  });
+});
 
 module.exports = router;

@@ -41,7 +41,7 @@
           ['Livingroom'<% data.forEach(function(docs) { %>,'<% if (docs['1a0043000f51353338363333'])  {%><%= docs['1a0043000f51353338363333'] %><%} else {%>null<%}%>'<% }); %>],
           ['Basement'<% data.forEach(function(docs) { %>,'<% if (docs['29005c000a51353335323535'])  {%><%= docs['29005c000a51353335323535'] %><%} else {%>null<%}%>'<% }); %>],
           ['Milford'<% data.forEach(function(docs) { %>,'<%= docs.accuweather_milford %>'<% }); %>],
-          ['Lennox'<% data.forEach(function(docs) { %>,'<%= docs.Lennox %>'<% }); %>],
+          ['Lennox'<% data.forEach(function(docs) { %>,'<% if (docs['Lennox'])  {%><%= docs['Lennox'] %><%} else {%>null<%}%>'<% }); %>],
           ],
 
           x: 'x'

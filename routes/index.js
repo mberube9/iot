@@ -100,11 +100,8 @@ router.get('/gTemperatures', function(req,res) {
   }
   var isodate = date.toISOString();
 
-
-
   db.sensors.find({"Time":{ $gt : isodate }}, function(err, data){
     if(err){res.send(err);}
-
 
     var response = [];
     var docs = [];
@@ -143,49 +140,8 @@ router.get('/gTemperatures', function(req,res) {
         title: title,
         data: docs
     });
-
-
   });
 });
-
-
-/*
-  db.sensors.find({"Device_id":"Lennox","Time":{ $gt : isodate }}).toArray(function (err, docs) {
-
-    var Time;
-    var data = [];
-
-    for (var i = 0; i < docs.length; i++){
-       if((i % Math.round(docs.length / 1440)) === 0){
-         SearchTime = docs[i]['Time'];
-         Time = moment(docs[i]['Time']);
-         docs[i]['Time'] = Time.tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
-         data.push(docs[i]);
-
-       }
-    };
-
-    var Last_Status = 0;
-    var lastevent = {};
-    var allevents = [];
-    for (var i = 0; i < data.length; i++){
-      if (Last_Status == 0 && data[i]['System_Status'] == 1){
-        lastevent['start'] = data[i]['Time'];
-      }
-      if (Last_Status == 1 && data[i]['System_Status'] == 0){
-        lastevent['stop'] = data[i]['Time'];
-        allevents.push(lastevent);
-        lastevent = {};
-      }
-      Last_Status = data[i]['System_Status'];
-    };
-
-
-
-  });
-
-*/
-
 
 
 
