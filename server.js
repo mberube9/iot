@@ -7,7 +7,29 @@ var api = require('./routes/api');
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+
+var admin_user = process.env.ADMIN_USER || 'admin',
+    admin_pwd = process.env.ADMIN_PASS || 'mypasswordsucks';
+
 var app = express();
+
+// Authenticator
+app.use(function(req, res, next) {
+    var auth;
+
+    if (req.headers.authorization) {
+      auth = new Buffer(req.headers.authorization.substring(6), 'base64').toString().split(':');
+    }
+
+    if (!auth || auth[0] !== admin_user || auth[1] !== admin_pwd) {
+        res.statusCode = 401;
+        res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
+        res.end('Unauthorized');
+    } else {
+        next();
+    }
+});
+
 
 //View Engine
 app.set('views', path.join(__dirname, 'views'));

@@ -10,7 +10,7 @@ var mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
 var mongojs = require('mongojs');
 
 var mongoURL = 'mongodb://';
-mongoURL += mongoUser + ':' + mongoPassword + '@';
+if (mongoUser) {mongoURL += mongoUser + ':' + mongoPassword + '@';}
 mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
 var collections = ['lennox','photon','sensors','stats'];
