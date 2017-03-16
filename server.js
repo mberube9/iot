@@ -30,6 +30,13 @@ app.use(function(req, res, next) {
     }
 });
 
+// no caching
+app.use(function (req, res, next) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next()
+});
 
 //View Engine
 app.set('views', path.join(__dirname, 'views'));
